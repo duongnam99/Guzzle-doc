@@ -29,7 +29,7 @@ $response = $client->request('GET', '/root');
 ```
 Không cảm thấy rằng minh đang đọc RFC 3986? dưới đây là vài ví dụ nhanh về cách mà một `base_uri` được xử lí nhanh bởi URI khác.
 | base_uri                  | URI              | Result                |
-|---------------------------|------------------|-----------------------|
+| ------------------------- |:----------------:| ---------------------:|
 | http://foo.com            | /bar             | http://foo.com/bar    |
 | http://foo.com/foo        | /bar             | http://foo.com/bar    |
 | http://foo.com/foo        | bar              | http://foo.com/bar    |
