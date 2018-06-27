@@ -376,6 +376,12 @@ Ghi chú: vì biến HTTP_PROXY có thể chứa đầu vào tùy ý từ ngư�
 
 Thiếu Relevant ini Settings rùi
 
+## Các cài đặt ini liên quan
+Guzzle có thể sử dụng các cài đặt ini PHP khi cấu hình các client.
+
+`openssl.cafile`
+Đặt tả đường dẫn đĩa đến 1 file CA ở định dạng PEM để sử dụng khi gửi các request qua  "https". Xem: https://wiki.php.net/rfc/tls-peer-verification#phpini_defaults
+
 
 
 
