@@ -1,12 +1,12 @@
  # Guzzle 6
 ## Khởi đầu nhanh  
-Trang này cung cấp phần khởi đầu nhanh với Guzzle và một vài ví dụ giới thiệt. Nếu bạn chưa cài Guzzle, hãy đến trang [cài đặt](http://docs.guzzlephp.org/en/stable/overview.html#installation)
+Trang này cung cấp phần khởi đầu nhanh với Guzzle và một vài ví dụ giới thiệu. Nếu bạn chưa cài Guzzle, hãy đến trang [cài đặt](http://docs.guzzlephp.org/en/stable/overview.html#installation)
 
 ## Tạo một request  
 Bạn có thể gửi các request với Guzzle sử dụng đối tượng GuzzleHttp\ClientInterface  
 
 ## Tạo  một Client 
-``` Sử dụng GuzzleHttp\Client;
+``` Use GuzzleHttp\Client;
 $client = new Client([
     // Base URI is used with relative requests
     'base_uri' => 'http://httpbin.org',
@@ -15,7 +15,7 @@ $client = new Client([
 ]);
 ```
 Các Clients là bất biến trong Guzzle 6, điều đó có nghĩa bạn không thể thay đổi chế độ mặc định của clients sau khi tạo nó.  
-Client constructor chấp nhận mảng liên kết của ác tùy chọn:
+Client constructor chấp nhận mảng liên kết của các tùy chọn:
 `base_uri`  
 (string|UriInterface) Base URI của client được sát nhập vào thành các URI tương đối. Có thể là một chuỗi hoặc một trường hợp của UriInterface. Khi một URI tương đối được cung cấp cho client, client sẽ kết hợp base URI với URI tương đối và sử dụng các quy tắc được môt tả trong [RFC 3986, section 2](https://tools.ietf.org/html/rfc3986#section-5.2)  
 
@@ -27,10 +27,9 @@ $response = $client->request('GET', 'test');
 // Send a request to https://foo.com/root
 $response = $client->request('GET', '/root');
 ```
-Không cảm thấy rằng minh đang đọc RFC 3986? dưới đây là vài ví dụ nhanh về cách mà một `base_uri` được xử lí nhanh bởi URI khác.  
-
+Không cảm thấy rằng không muốn đọc RFC 3986? dưới đây là vài ví dụ nhanh về cách mà một `base_uri` được xử lí nhanh bởi URI khác.
 | base_uri                  | URI              | Result                |
-| ------------------------- | ---------------- | --------------------- |
+|---------------------------|------------------|-----------------------|
 | http://foo.com            | /bar             | http://foo.com/bar    |
 | http://foo.com/foo        | /bar             | http://foo.com/bar    |
 | http://foo.com/foo        | bar              | http://foo.com/bar    |
@@ -38,12 +37,12 @@ Không cảm thấy rằng minh đang đọc RFC 3986? dưới đây là vài v�
 | http://foo.com            | http://baz.com   | http://baz.com        |
 | http://foo.com/?bar       | bar              | http://foo.com/bar    |
 
-`handler` : (callable) 1 hàm chuyển các HTTP request trên đường dẫn. Hàm được gọi với 1 Psr7HttpMessageRequestInterface và mảng các tùy chọn chuyển, và phải trả về 1 GuzzleHttpPromisePromiseInterface mà làm đúng theo Psr7HttpMessageResponseInterface khi thành công. handler là 1 khởi tạo mà tùy chọn không thể được ghi đè trong các tùy chọn per/request
+`handler` : (callable) 1 hàm transfer các HTTP request trên đường dẫn. Hàm được gọi với 1 Psr7HttpMessageRequestInterface và mảng các tùy chọn chuyển, và phải trả về 1 GuzzleHttpPromisePromiseInterface mà làm đúng theo Psr7HttpMessageResponseInterface khi thành công. handler là 1 khởi tạo mà tùy chọn không thể được ghi đè trong các tùy chọn per/request
 
 ... : (mixed) Tất cả các tùy chọn khác được truyền vào hàm khởi tạo được sử dụng như các tùy chọn request mặc định với mỗi request được tạo bởi client.
 
 ## Gửi request
-Các Magic methods trên client khiến việc của các request đồng bộ trở nên dễ dàng
+Các Magic methods trên client khiến việc gửi các request đồng bộ trở nên dễ dàng
 ```
 $response = $client->get('http://httpbin.org/get');
 $response = $client->delete('http://httpbin.org/delete');
@@ -60,11 +59,11 @@ Bạn có thể tạo một request và sau đó gửi request bằng client khi
 $request = new Request('PUT', 'http://httpbin.org/put');
 $response = $client->send($request, ['timeout' => 2]);
 ```  
-Các đối tượng client cung cấp một giải pháp linh động trong việc làm thế nào để request được vận chuyển với các tùy chon mặc định, các middleware mặc định được xử dụng  bởi mỗi request, và  1 URI gốc cho phép bạn gửi các request với các URI tương đối.  
+Các đối tượng client cung cấp một giải pháp linh động trong việc làm thế nào để request được vận chuyển với các tùy chon mặc định, các middleware mặc định được sử dụng  bởi mỗi request, và  1 URI gốc cho phép bạn gửi các request với các URI tương đối.  
 Bạn có thể tìm hiểu thêm về client middleware trong trang [Handlers and Middleware](http://docs.guzzlephp.org/en/stable/handlers-and-middleware.html) của tài liệu.
 
-## Các request không đồng bộ
-Bạn có thẻ sử dụng các request bất đồng bộ bằng cách sử dụng các magic method được cung cấp bởi client:
+## Các request bất đồng bộ
+Bạn có thể sử dụng các request bất đồng bộ bằng cách sử dụng các magic method được cung cấp bởi client:
 ```
 $promise = $client->getAsync('http://httpbin.org/get');
 $promise = $client->deleteAsync('http://httpbin.org/delete');
@@ -130,7 +129,7 @@ $results = Promise\settle($promises)->wait();
 echo $results['image']['value']->getHeader('Content-Length')[0]
 echo $results['png']['value']->getHeader('Content-Length')[0]
 ```
-Bạn có thể sử dụng GuzzleHttp\Pool object khi bạn có một số request không định lượng đưuọc mà bạn cần gửi:
+Bạn có thể sử dụng GuzzleHttp\Pool object khi bạn có một số request không định lượng được mà bạn cần gửi:
 ```
 use GuzzleHttp\Pool;
 use GuzzleHttp\Client;
@@ -199,7 +198,7 @@ foreach ($response->getHeaders() as $name => $values) {
     echo $name . ': ' . implode(', ', $values) . "\r\n";
 }
 ```
-Phần body của response cũng có thể lấy được bằng cách sử dụng  phương thức getBody. Phần body có thể dược dùng như một chuỗi, ép thành chuỗi, hoặc được dùng như một luồng đối tượng
+Phần body của response cũng có thể lấy được bằng cách sử dụng  phương thức getBody. Phần body có thể dược dùng như một chuỗi, ép thành chuỗi, hoặc được dùng như một luồng đối tượng.
 ```
 $body = $response->getBody();
 // Implicitly cast the body to a string and echo it
@@ -271,7 +270,7 @@ $response = $client->request('POST', 'http://httpbin.org/post', [
 ]);
 ```
 ### Gửi từ file 
-Bạn có thể gửi các file qua một form (multipart/form-data POST requests), sử dụng tùy chọn multipart request. multipart chấp nhận một mảng của các mảng liên kết, nơimà tưng mảng liên kết chứa các keys sau:
+Bạn có thể gửi các file qua một form (multipart/form-data POST requests), sử dụng tùy chọn multipart request. multipart chấp nhận một mảng của các mảng liên kết, nơi mà tưng mảng liên kết chứa các key sau:
 - name: (required, string) khóa nôis đến trường tên trong form
 - contents: (required, mixed) cung cấp một chuỗi để gửi nội dung của file như là một chuỗi, cung cấp fopen resource để chuyển nội dung từ luồng php, hoặc cung cấp Psr\Http\Message\StreamInterface để chuyển nội dung từ một luồng PSR-7
     ```
@@ -297,7 +296,7 @@ Bạn có thể gửi các file qua một form (multipart/form-data POST request
     ]);
     ```
 ## Cookies
-Guzzle có thể duy trì cookie session cho bạn nếu được yêu cầu sử dụng tùy chọn cookies request. Khi gửi môt request, tùy chọn cookie phải được gắn với instance của GuzzleHttp\Cookie\CookieJarInterface.
+Guzzle có thể duy trì cookie session cho bạn nếu được yêu cầu sử dụng tùy chọn cookies request. Khi gửi một request, tùy chọn cookie phải được gắn với instance của GuzzleHttp\Cookie\CookieJarInterface.
 ```
 // Use a specific cookie jar
 $jar = new \GuzzleHttp\Cookie\CookieJar;
@@ -316,7 +315,7 @@ $r = $client->request('GET', 'http://httpbin.org/cookies');
 Guzzle sẽ tự động theo dõi chuyển hướng trừ bạn không muốn nó làm vậy. Bạn có thể tùy chỉnh hành động điều hướng bằng các sử dụng tùy chọn allow_redirects request
 - Đặt thành `true` để bật điều hướng bình thường với tối đa 5 lần điều hướng. Đây là cài đặt mặc định.
 - Cài về `false` để tắt điều hướng
-- Truyền một mảng liên kết bao gòm `max` key để xác định số điều hướng tối đa và  có thể thêm khóa 'strict' để chỉ rõ rằng liệu điều hướng RFC compliant có được sử dụng hay không (có nghĩa là điều hướng các POST request với các POST so với việc hầu hết các trình duyệt sẽ làm đó là điều hướng các POST request với các GET request).
+- Truyền một mảng liên kết bao gồm `max` key để xác định số điều hướng tối đa và  có thể thêm khóa 'strict' để chỉ rõ rằng liệu điều hướng RFC compliant có được sử dụng hay không (có nghĩa là điều hướng các POST request với các POST so với việc hầu hết các trình duyệt sẽ làm đó là điều hướng các POST request với các GET request).
 ```
 $response = $client->request('GET', 'http://github.com');
 echo $response->getStatusCode();
@@ -333,7 +332,7 @@ echo $response->getStatusCode();
 
 ## Ngoại lệ
 Guzzle sẽ ném ngoại lệ cho những lỗi xảy ra tron g  quá tr ình  truyền tải:
-- Trong sự kiện lỗi mạng:  ()connection timeout, DNS errors, vv...).GuzzleHttp\Exception\RequestException được ném ra. Ngoại lệ  này kết thừa từ  GuzzleHttp\Exception\TransferException. Bắt được ngoại lệ này sẽ bắt được bất kì ngọa lệ  nào mà có thể xuất hiện trong qúa trình tryuyền t ải request.
+- Trong sự kiện lỗi mạng:  ()connection timeout, DNS errors, vv...).GuzzleHttp\Exception\RequestException được ném ra. Ngoại lệ  này kết thừa từ  GuzzleHttp\Exception\TransferException. Bắt được ngoại lệ này sẽ bắt được bất kì ngoại lệ  nào mà có thể xuất hiện trong qúa trình tryuyền t ải request.
     ```
     use GuzzleHttp\Psr7;
     use GuzzleHttp\Exception\RequestException;
@@ -347,7 +346,7 @@ Guzzle sẽ ném ngoại lệ cho những lỗi xảy ra tron g  quá tr ình  t
         }
     }
     ```
-- Ngoại lệ GuzzleHttp\Exception\ConnectException được ném ra khi có sự kiện  llỗi mạng. Ngọa lệ này kết tthùa từ  GuzzleHttp\Exception\RequestException.
+- Ngoại lệ GuzzleHttp\Exception\ConnectException được ném ra khi có sự kiện  llỗi mạng. Ngoại lệ này kết tthùa từ  GuzzleHttp\Exception\RequestException.
 - GuzzleHttpExceptionClientException được ném ra mức lỗi 400 nếu tùy chọn request http_errors được gán thành true. Ngoại lệ này kế thừa từ GuzzleHttpExceptionBadResponseException và GuzzleHttpExceptionBadResponseException kế thừa từ GuzzleHttpExceptionRequestException.
     ```
       use GuzzleHttpExceptionClientException;
@@ -361,7 +360,7 @@ Tất cả những ngoại lệ trên đều kế thừa từ GuzzleHttpExceptio
 
 ## Biến môi trường
 
-Guzzle cung cấp một vài biến môi trường đmà có thể sđược dùngể tuỳ chỉnh hành động của thư viện.  
+Guzzle cung cấp một vài biến môi trường đmà có thể được dùng để tuỳ chỉnh hành động của thư viện.  
 
 `GUZZLE_CURL_SELECT_TIMEOUT` : 
 điều chỉnh khoảng thời gian (vài giây) mà một curl_multi_* handler sử dụng khi chọn curl handles bằng cách sử dụng curl_multi_select(). Một vài hệ thống có vấn đề với các triển khai của PHP của curl_multi_select() khi mà việc gọi hàm này luôn dẫn tới việc phải chờ trong khoảng thời gian timeout tối đa.  
@@ -369,7 +368,7 @@ Guzzle cung cấp một vài biến môi trường đmà có thể sđược dù
 `HTTP_PROXY :`
 Định nghĩa proxy được sử dụng khi gửi các request sử dụng giao thức "http".
 
-Ghi chú: vì biến HTTP_PROXY có thể chứa đầu vào tùy ý từ người dùng àrtn một vài môi trường (CGI), nên nó chỉ được sử dụng trên CLI SAPI. Xem thêm thông tin phía dưới.
+Ghi chú: vì biến HTTP_PROXY có thể chứa đầu vào tùy ý từ người dùng trong một vài môi trường (CGI), nên nó chỉ được sử dụng trên CLI SAPI. Xem thêm thông tin phía dưới.
 
 `HTTPS_PROXY :`  
 Định nghĩa proxy nào được sử dụng khi gửi các request mà sử dụng giao thức "https".
