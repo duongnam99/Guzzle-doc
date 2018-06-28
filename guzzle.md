@@ -1,5 +1,5 @@
  # Guzzle 6
-## Khởi đầu nhanh  
+## Bắt đầu đầu nhanh  
 Trang này cung cấp phần khởi đầu nhanh với Guzzle và một vài ví dụ giới thiệu. Nếu bạn chưa cài Guzzle, hãy đến trang [cài đặt](http://docs.guzzlephp.org/en/stable/overview.html#installation)
 
 ## Tạo một request  
@@ -14,8 +14,8 @@ $client = new Client([
     'timeout'  => 2.0,
 ]);
 ```
-Các Clients là bất biến trong Guzzle 6, điều đó có nghĩa bạn không thể thay đổi chế độ mặc định của clients sau khi tạo nó.  
-Client constructor chấp nhận mảng liên kết của các tùy chọn:
+Các Clients là bất biến trong Guzzle 6, điều đó có nghĩa bạn không thể thay đổi chế độ mặc định của clients sau khi khởi tạo nó.  
+Client constructor chấp nhận mảng kết hợp của các tùy chọn:
 `base_uri`  
 (string|UriInterface) Base URI của client được sát nhập vào thành các URI tương đối. Có thể là một chuỗi hoặc một trường hợp của UriInterface. Khi một URI tương đối được cung cấp cho client, client sẽ kết hợp base URI với URI tương đối và sử dụng các quy tắc được môt tả trong [RFC 3986, section 2](https://tools.ietf.org/html/rfc3986#section-5.2)  
 
@@ -27,7 +27,7 @@ $response = $client->request('GET', 'test');
 // Send a request to https://foo.com/root
 $response = $client->request('GET', '/root');
 ```
-Không cảm thấy rằng không muốn đọc RFC 3986? dưới đây là vài ví dụ nhanh về cách mà một `base_uri` được xử lí nhanh bởi URI khác.
+Cảm thấy rằng không muốn đọc RFC 3986? dưới đây là vài ví dụ nhanh về cách mà một `base_uri` được xử lí nhanh bởi URI khác.
 
 | base_uri                  | URI              | Result                |
 | ------------------------- | ---------------- | --------------------- |
@@ -43,7 +43,7 @@ Không cảm thấy rằng không muốn đọc RFC 3986? dưới đây là vài
 ... : (mixed) Tất cả các tùy chọn khác được truyền vào hàm khởi tạo được sử dụng như các tùy chọn request mặc định với mỗi request được tạo bởi client.
 
 ## Gửi request
-Các Magic methods trên client khiến việc gửi các request đồng bộ trở nên dễ dàng
+Các phương thức Magic trên client khiến việc gửi các request đồng bộ trở nên dễ dàng
 ```
 $response = $client->get('http://httpbin.org/get');
 $response = $client->delete('http://httpbin.org/delete');
@@ -130,7 +130,7 @@ $results = Promise\settle($promises)->wait();
 echo $results['image']['value']->getHeader('Content-Length')[0]
 echo $results['png']['value']->getHeader('Content-Length')[0]
 ```
-Bạn có thể sử dụng GuzzleHttp\Pool object khi bạn có một số request không định lượng được mà bạn cần gửi:
+Bạn có thể sử dụng GuzzleHttp\Pool object khi bạn có một số request không xác định được request mà bạn cần gửi:
 ```
 use GuzzleHttp\Pool;
 use GuzzleHttp\Client;
@@ -305,7 +305,7 @@ $r = $client->request('GET', 'http://httpbin.org/cookies', [
     'cookies' => $jar
 ]);
 ```
-Bạn có thể cài đặt cookie về true trong client contructor nếu bạn muốn dùng shared cookie jar cho tất cả các request
+Bạn có thể cài đặt cookie về true trong client contructor nếu bạn muốn dùng chi sẻ cookie jar cho tất cả các request
 ```
 // Use a shared client cookie jar
 $client = new \GuzzleHttp\Client(['cookies' => true]);
@@ -322,7 +322,7 @@ $response = $client->request('GET', 'http://github.com');
 echo $response->getStatusCode();
 // 200
 ```
-Ví dụ dưới dây cho thấy ridirect có thể bị tắt
+Ví dụ dưới dây cho thấy redirect có thể bị tắt
 ```
 $response = $client->request('GET', 'http://github.com', [
     'allow_redirects' => false
@@ -361,7 +361,7 @@ Tất cả những ngoại lệ trên đều kế thừa từ GuzzleHttpExceptio
 
 ## Biến môi trường
 
-Guzzle cung cấp một vài biến môi trường đmà có thể được dùng để tuỳ chỉnh hành động của thư viện.  
+Guzzle cung cấp một vài biến môi trường mà có thể được dùng để tuỳ chỉnh hành động của thư viện.  
 
 `GUZZLE_CURL_SELECT_TIMEOUT` : 
 điều chỉnh khoảng thời gian (vài giây) mà một curl_multi_* handler sử dụng khi chọn curl handles bằng cách sử dụng curl_multi_select(). Một vài hệ thống có vấn đề với các triển khai của PHP của curl_multi_select() khi mà việc gọi hàm này luôn dẫn tới việc phải chờ trong khoảng thời gian timeout tối đa.  
